@@ -1,11 +1,6 @@
-using System.Numerics;
-
-namespace LoanPlan.Models.Domain
+namespace LoanPlan.Models
 {
-
-    public class Loan
-    {
-        public Guid Id {get; set;}
+    public class AddLoanRequestDTO{
         public required string Email {get; set;}
 
         public required string NameSurname {get; set;}
@@ -17,7 +12,5 @@ namespace LoanPlan.Models.Domain
         public required int LoanAmount {get; set;}
 
         public required int LoanPeriod {get; set;}
-        
     }
-
 }
