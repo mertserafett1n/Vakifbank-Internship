@@ -1,0 +1,11 @@
+@if (loans$ | async; as loans) { 
+  @if (loans.length > 0) {
+    @for (item of loans; track $index) {
+      <p>naber kanka</p>
+      <p>{{item.BankName}}</p>
+    }
+  }
+  @else {
+    <p>?????Couldnt find any loan....?????</p>
+  }
+}
