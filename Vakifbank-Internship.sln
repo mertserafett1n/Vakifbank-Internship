@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "project", "project", "{15F98918-7B96-416D-A69C-07A2DA9AC462}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{11A9BA77-E1FB-4033-A3F9-513BA8009AAC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoanPlan", "project\API\LoanPlan\LoanPlan.csproj", "{22DAB06A-0811-4EFC-B1E0-0A41D5FC8A57}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{22DAB06A-0811-4EFC-B1E0-0A41D5FC8A57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22DAB06A-0811-4EFC-B1E0-0A41D5FC8A57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22DAB06A-0811-4EFC-B1E0-0A41D5FC8A57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22DAB06A-0811-4EFC-B1E0-0A41D5FC8A57}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{11A9BA77-E1FB-4033-A3F9-513BA8009AAC} = {15F98918-7B96-416D-A69C-07A2DA9AC462}
+		{22DAB06A-0811-4EFC-B1E0-0A41D5FC8A57} = {11A9BA77-E1FB-4033-A3F9-513BA8009AAC}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {18FFF1DE-DDD3-40C4-97C5-A3D1C3AC9B5C}
+	EndGlobalSection
+EndGlobal
