@@ -16,9 +16,9 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
-builder.Services.AddDbContext<LoanPlanDbContext>(options => 
-options.UseInMemoryDatabase("LoansDb"));
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<LoanPlanDbContext>(options =>
+    options.UseSqlServer(connectionString));
 
 var app = builder.Build();
 
