@@ -44,6 +44,9 @@ namespace LoanPlan.Controllers
             _dbContext.SaveChanges();
             return Ok(domainModelLoan);
         }
+        //[Microsoft.AspNetCore.Mvc.HttpDelete]
+        //public IActionResult DeleteLoan (Guid id)
+        
 
     }
 
