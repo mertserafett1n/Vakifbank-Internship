@@ -1,0 +1,34 @@
+<div class="container mt-5">
+    <h2 class="text-center text-primary">Kredi Hesaplama</h2>
+    <p class="text-center">Lütfen kredi bilgilerinizi giriniz.</p>
+  
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <form (ngSubmit)="onFormSubmit()" [formGroup]="loanCalculForm">
+          <!-- Loan Amount -->
+          <div class="mb-3">
+            <label for="LoanAmount" class="form-label">Kredi Tutarı (₺)</label>
+            <input type="number" class="form-control" formControlName = "LoanAmount"  placeholder="Örneğin: 50000">
+          </div>
+  
+          <!-- Loan Term -->
+          <div class="mb-3">
+            <label for="LoanTerm" class="form-label">Vade Sayısı (Ay)</label>
+            <input type="number" class="form-control" formControlName = "LoanPeriod" placeholder="Örneğin: 36">
+          </div>
+  
+          <!-- Interest Rate -->
+          <div class="mb-3">
+            <label for="InterestRate" class="form-label">Faiz Oranı (%)</label>
+            <input type="number" step="0.01" class="form-control" formControlName = "InterestRate" placeholder="Örneğin: 1.5">
+          </div>
+  
+          <!-- Calculate Button -->
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-success btn-lg">Hesapla</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
