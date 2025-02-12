@@ -21,15 +21,25 @@ namespace LoanPlan.Controllers
         }
 // 
                   
-        [Microsoft.AspNetCore.Mvc.HttpGet]  // When it is only HttpGet, didnt work out, respons error(500) ,pretty annoying, stupid error.
-        public IActionResult getPaymentPlan()
+        [Microsoft.AspNetCore.Mvc.HttpGet("{id}")]  // When it is only HttpGet, didnt work out, respons error(500) ,pretty annoying, stupid error.
+        public IActionResult getPaymentPlan(Guid id)
         {   // BURAYA BAK
-            //var requestCalculation = new Calculation{};
+            var requestCalculation = _dbContext.Calculations.FirstOrDefault(c => c.Id == id);
+            
+            if(requestCalculation == null){
+                return NotFound("Calculation not found(ID)");
+            }
+            AddCalculationRequestDTO newRequestCalculation = new AddCalculationRequestDTO{
+                LoanAmount = requestCalculation.LoanAmount,
+                LoanPeriod = requestCalculation.LoanPeriod,
+                InterestRate = requestCalculation.InterestRate
+            };
+            var paymentPlan = calculatePaymentPlan(newRequestCalculation);
             
             // Might have some problem here with returning the list, could've been inside return func, if it won't work, try it, check it.
               //  var paymentPlan = calculatePaymentPlan(requestCalculation).ToList();
                 //var calculations = _dbContext.Calculations.ToList();
-                return Ok();
+                return Ok(paymentPlan);
         }
 
         [Microsoft.AspNetCore.Mvc.HttpPost]
@@ -44,7 +54,7 @@ namespace LoanPlan.Controllers
             };
             _dbContext.Calculations.Add(domainModelCalculation);
             _dbContext.SaveChanges();
-            return Ok(domainModelCalculation);
+            return Ok(domainModelCalculation.Id);
         }
 
         // Continue here!!!!!
@@ -55,15 +65,17 @@ namespace LoanPlan.Controllers
             var paymentPlan = new List<PaymentPlan>();
         
             for(int i = 1; i <= requestCalculation.LoanPeriod; i++){
+                // Also here not worknig well, need to fix smth.
                 var payment = new PaymentPlan{
                     PaymentNo = i,
                     PaymentAmount = monthlyPayment,
-                    AmountOfInterest = monthlyPayment * monthlyInterestRate,
                     AmountOfMoney = monthlyPayment * i, // ÖDENEN
-                    RestOfMoney = requestCalculation.LoanAmount - (monthlyPayment * i) // KALAN
+                    RestOfMoney = RestOfMoney - (monthlyPayment * i) // KALAN
+                    AmountOfInterest = RestOfMoney * monthlyInterestRate,
                 };
-                paymentPlan.Add(payment);  // This line causes the error, because it returns a list, but it doesn't add each payment plan to it.  // Solution: Move the creation of paymentPlan to the for loop.  // Better solution: Use a database to store the payment plans, not a list.  // But for now, we'll use a list.  // Also, you should return a single object (PaymentPlan) instead of a list when returning the payment
+                paymentPlan.Add(payment);  
             }
+            
             return paymentPlan;
         }
     }

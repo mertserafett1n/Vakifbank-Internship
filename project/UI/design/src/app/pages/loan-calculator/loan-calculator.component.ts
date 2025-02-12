@@ -34,8 +34,9 @@ export class LoanCalculatorComponent {
     RestOfMoney: new FormControl<number>(0)
   })
   http = inject(HttpClient);
-
+  paymentPlanList: PaymentPlan[] = []; // Stores all payment plans for table display
   onFormSubmit(){
+    var tempId: string;
     const addLoanCalclRequest = {
       LoanAmount: this.loanCalculForm.value.LoanAmount,
       LoanPeriod: this.loanCalculForm.value.LoanPeriod,
@@ -43,9 +44,11 @@ export class LoanCalculatorComponent {
     }
     this.http.post("http://localhost:5025/api/Calculations", addLoanCalclRequest)
     .subscribe({
-      next: (value) => {
-        console.log('POST request successful', value);
+      next: (value: any) => {
+        console.log('POST request successful, The Id of Last Data: ', value );
         this.loanCalculForm.reset();
+        tempId = value;
+        this.getPaymentPlan(tempId);
       }
     });
     /*
@@ -56,6 +59,9 @@ export class LoanCalculatorComponent {
       AmountOfMoney: this.paymentPlanForm.value.AmountOfMoney,
       RestOfMoney: this.paymentPlanForm.value.RestOfMoney,
     }
+
+    */
+/*
     this.http.get("http://localhost:5025/api/Calculations")
     .subscribe({
       next: (response) => {
@@ -68,10 +74,34 @@ export class LoanCalculatorComponent {
     }) 
 */
   }
+  
   /*
   private getPaymentPlan(): Observable<PaymentPlan[]> {
     return this.http.get<PaymentPlan[]>("http://localhost:5025/api/Calculations");
   }
   */
+
+// Getting 400 error, nothing bad w posting, smth wrong w get method. Might need to with here. 
+  getPaymentPlan(calculationId: string){
+    this.http.get<PaymentPlan[]>("http://localhost:5025/api/Calculations/${calculationId")
+    .subscribe({
+      next: (value) => {
+        console.log ('GET request successful', value);
+        if(value.length > 0){
+          this.paymentPlanForm.setValue({
+            PaymentNo: value[0].PaymentNo,
+            PaymentAmount: value[0].PaymentAmount,
+            AmountOfInterest: value[0].AmountOfInterest,
+            AmountOfMoney: value[0].AmountOfMoney,
+            RestOfMoney: value[0].RestOfMoney
+          });
+          this.paymentPlanList = value;
+        }
+      },
+      error: (error) => {
+        console.error('Error: ROW !=', error);
+      }
+    });
+  }
 
 }
