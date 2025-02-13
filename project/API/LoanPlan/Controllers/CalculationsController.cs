@@ -63,15 +63,18 @@ namespace LoanPlan.Controllers
             var monthlyPayment = (double)requestCalculation.LoanAmount * ((monthlyInterestRate * Math.Pow(1 + monthlyInterestRate, (double)requestCalculation.LoanPeriod)) / ((Math.Pow(1 + monthlyInterestRate, (double)requestCalculation.LoanPeriod)) - 1));
 
             var paymentPlan = new List<PaymentPlan>();
-        
+            var reminaningBalance = (double)requestCalculation.LoanAmount;
             for(int i = 1; i <= requestCalculation.LoanPeriod; i++){
+                var interestPaid = reminaningBalance * monthlyInterestRate;
+                var principalPaid = monthlyPayment - interestPaid;
                 // Also here not worknig well, need to fix smth.
+                reminaningBalance -= principalPaid;
                 var payment = new PaymentPlan{
                     PaymentNo = i,
                     PaymentAmount = monthlyPayment,
-                    AmountOfMoney = monthlyPayment * i, // ÖDENEN
-                    RestOfMoney = RestOfMoney - (monthlyPayment * i) // KALAN
-                    AmountOfInterest = RestOfMoney * monthlyInterestRate,
+                    AmountOfInterest = interestPaid, // Ödenen faiz tutaru
+                    AmountOfMoney = principalPaid, // ÖDENEN Anapara Tutuarı
+                    RestOfMoney = reminaningBalance, // KALAN ANAPARA BORCU                
                 };
                 paymentPlan.Add(payment);  
             }

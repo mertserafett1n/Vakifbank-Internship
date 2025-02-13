@@ -83,19 +83,29 @@ export class LoanCalculatorComponent {
 
 // Getting 400 error, nothing bad w posting, smth wrong w get method. Might need to with here. 
   getPaymentPlan(calculationId: string){
-    this.http.get<PaymentPlan[]>("http://localhost:5025/api/Calculations/${calculationId")
+    if(!calculationId || calculationId.trim() == ""){
+      console.error('Invaid calculationID: ', calculationId);
+      return;
+    }
+     
+    const apiURL = `http://localhost:5025/api/Calculations/${calculationId}`;
+    console.log(`GET Request to: ${apiURL}`); // ✅ This will correctly display the actual URL
+
+
+
+    this.http.get<PaymentPlan[]>(apiURL)
     .subscribe({
-      next: (value) => {
-        console.log ('GET request successful', value);
-        if(value.length > 0){
+      next: (response) => {
+        console.log ('GET request successful', response);
+        if(response.length > 0){
           this.paymentPlanForm.setValue({
-            PaymentNo: value[0].PaymentNo,
-            PaymentAmount: value[0].PaymentAmount,
-            AmountOfInterest: value[0].AmountOfInterest,
-            AmountOfMoney: value[0].AmountOfMoney,
-            RestOfMoney: value[0].RestOfMoney
+            PaymentNo: response[0].PaymentNo,
+            PaymentAmount: response[0].PaymentAmount,
+            AmountOfInterest: response[0].AmountOfInterest,
+            AmountOfMoney: response[0].AmountOfMoney,
+            RestOfMoney: response[0].RestOfMoney
           });
-          this.paymentPlanList = value;
+          this.paymentPlanList = response;
         }
       },
       error: (error) => {
