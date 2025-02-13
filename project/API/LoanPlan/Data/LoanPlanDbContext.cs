@@ -15,5 +15,6 @@ namespace LoanPlan.Data
         public DbSet<Bank> Banks {get; set;}
         public DbSet<Calculation> Calculations {get; set;}
         public DbSet<LoanSearch> LoanSearches {get; set;}
+        public DbSet<Log> Logs { get; set; }
     }
 }

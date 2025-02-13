@@ -5,6 +5,11 @@
             <h1 class="text-start text-primary">Kredi Başvurusu</h1>
             <p class="text-start">Lütfen başvuru yapmak için bilgilerinizi eksiksiz doldurun.</p>
 
+            <!-- ✅ Success Message -->
+            <div *ngIf="successMessage" class="alert alert-success text-center mt-3">
+                {{ successMessage }}
+            </div>
+
             <form (ngSubmit)="onFormSubmit()" [formGroup]="loanAppForm">
                 <!-- Email Address -->
                 <div class="mb-3">
@@ -86,7 +91,6 @@
                         <li class="list-group-item d-flex justify-content-between align-items-center"
                             *ngFor="let search of allSearchedLoans">
                             <span>{{ search.LoanAmount | number }} TL, {{ search.LoanPeriod }} ay vade kredi</span>
-                            
                         </li>
                     </ul>
                     <p *ngIf="allSearchedLoans.length === 0" class="text-muted text-center mt-2">Henüz popüler arama yok.</p>

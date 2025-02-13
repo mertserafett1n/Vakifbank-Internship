@@ -35,7 +35,8 @@ export class LoanApplicationComponent implements OnInit {
   });
 
   http = inject(HttpClient);
-  allSearchedLoans: LoanSearch[]  = [];
+  allSearchedLoans: LoanSearch[] = [];
+  successMessage: string = ""; // ✅ Success message variable
 
   ngOnInit() {
     this.getAllSearchedLoans();
@@ -71,20 +72,29 @@ export class LoanApplicationComponent implements OnInit {
           console.log('POST request successful', value);
           this.loanAppForm.reset();
           this.getAllSearchedLoans(); // ✅ Refresh search list after submission
+
+          // ✅ Show success message
+          this.successMessage = "Kredi başvurunuz alınmıştır, teşekkürler!";
+          
+          // ✅ Hide the message after 3 seconds
+          setTimeout(() => {
+            this.successMessage = "";
+          }, 3000);
         }
       });
   }
 
-  private getAllSearchedLoans(){
+  private getAllSearchedLoans() {
     this.http.get<LoanSearch[]>("http://localhost:5025/api/LoanSearchs")
-    .subscribe({
-      next: (response) => {
-        console.log ('GET request successful', response);
-        this.allSearchedLoans = response;
-      },
-      error: (error) => {
-        console.error('Error: GET', error);
-      }
-    });
+      .subscribe({
+        next: (response) => {
+          console.log('GET request successful', response);
+          this.allSearchedLoans = response;
+        },
+        error: (error) => {
+          console.error('Error: GET', error);
+        }
+      });
   }
 }
+

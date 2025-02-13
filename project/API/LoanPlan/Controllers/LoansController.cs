@@ -4,7 +4,7 @@ using LoanPlan.Models.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using LoanPlan.Services;
 namespace LoanPlan.Controllers
 {
     [Route("api/Loans")]
@@ -13,10 +13,11 @@ namespace LoanPlan.Controllers
     {
 
         private readonly LoanPlanDbContext _dbContext;
-
-        public LoansController(LoanPlanDbContext dbContext)
+        private readonly LogService _logService;
+        public LoansController(LoanPlanDbContext dbContext, LogService logService)
         {
             _dbContext = dbContext;
+            _logService = logService;
         }
 
         
@@ -24,6 +25,7 @@ namespace LoanPlan.Controllers
         public IActionResult GetAllLoans()
         {
                 var loans = _dbContext.Loans.ToList();
+                _logService.LogInfo("Fetched all loans.");
                 return Ok(loans);
         }
 
@@ -44,9 +46,8 @@ namespace LoanPlan.Controllers
             _dbContext.Loans.Add(domainModelLoan);
             _dbContext.SaveChanges();
 
-            // ✅ Call the function to update LoanSearchs
             UpdateLoanSearch(requestLoan.LoanAmount, requestLoan.LoanPeriod);
-
+            _logService.LogInfo($"Loan application created for {requestLoan.NameSurname} ({requestLoan.Email}).");
             return Ok(domainModelLoan);
         }
 

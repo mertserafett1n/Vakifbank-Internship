@@ -1,6 +1,7 @@
 using LoanPlan.Data;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using LoanPlan.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,8 @@ builder.Services.AddSwaggerGen();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<LoanPlanDbContext>(options =>
     options.UseSqlServer(connectionString));
+
+builder.Services.AddScoped<LogService>();
 
 var app = builder.Build();
 

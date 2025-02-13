@@ -4,6 +4,7 @@ using LoanPlan.Models.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using LoanPlan.Services;
 
 namespace LoanPlan.Controllers
 {
@@ -13,11 +14,12 @@ namespace LoanPlan.Controllers
     {
 
         private readonly LoanPlanDbContext _dbContext;
+        private readonly LogService _logService;
 
-
-        public CalculationsController(LoanPlanDbContext dbContext)
+        public CalculationsController(LoanPlanDbContext dbContext, LogService logService)
         {
             _dbContext = dbContext;
+            _logService = logService;
         }
 // 
                   
@@ -39,6 +41,7 @@ namespace LoanPlan.Controllers
             // Might have some problem here with returning the list, could've been inside return func, if it won't work, try it, check it.
               //  var paymentPlan = calculatePaymentPlan(requestCalculation).ToList();
                 //var calculations = _dbContext.Calculations.ToList();
+                 _logService.LogInfo($"Loan calculation performed: Amount={requestCalculation.LoanAmount}, Period={requestCalculation.LoanPeriod}, InterestRate={requestCalculation.InterestRate}%.");
                 return Ok(paymentPlan);
         }
 
@@ -57,7 +60,6 @@ namespace LoanPlan.Controllers
             return Ok(domainModelCalculation.Id);
         }
 
-        // Continue here!!!!!
         private List<PaymentPlan> calculatePaymentPlan(AddCalculationRequestDTO requestCalculation){
             var monthlyInterestRate = (double)requestCalculation.InterestRate / 100; // Convert to double
             var monthlyPayment = (double)requestCalculation.LoanAmount * ((monthlyInterestRate * Math.Pow(1 + monthlyInterestRate, (double)requestCalculation.LoanPeriod)) / ((Math.Pow(1 + monthlyInterestRate, (double)requestCalculation.LoanPeriod)) - 1));
