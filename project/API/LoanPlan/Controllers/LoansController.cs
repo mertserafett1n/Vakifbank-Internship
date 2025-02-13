@@ -28,7 +28,7 @@ namespace LoanPlan.Controllers
         }
 
         [Microsoft.AspNetCore.Mvc.HttpPost]
-        public IActionResult AddLoan (AddLoanRequestDTO requestLoan)
+        public IActionResult AddLoan(AddLoanRequestDTO requestLoan)
         {
             var domainModelLoan = new Loan
             {
@@ -40,14 +40,39 @@ namespace LoanPlan.Controllers
                 Email = requestLoan.Email,
                 LoanType = requestLoan.LoanType
             };
+
             _dbContext.Loans.Add(domainModelLoan);
             _dbContext.SaveChanges();
+
+            // ✅ Call the function to update LoanSearchs
+            UpdateLoanSearch(requestLoan.LoanAmount, requestLoan.LoanPeriod);
+
             return Ok(domainModelLoan);
         }
-        //[Microsoft.AspNetCore.Mvc.HttpDelete]
-        //public IActionResult DeleteLoan (Guid id)
-        
 
+        private void UpdateLoanSearch(int loanAmount, int loanPeriod)
+        {
+            var existingLoanSearch = _dbContext.LoanSearches
+                .FirstOrDefault(x => x.LoanAmount == loanAmount && x.LoanPeriod == loanPeriod);
+
+            if (existingLoanSearch != null)
+            {
+                // If already exists, increase popularity
+                existingLoanSearch.Popularity += 1;
+            }
+            else
+            {
+                // If doesn't exist, create a new entry
+                var newLoanSearch = new LoanSearch
+                {
+                    Id = Guid.NewGuid(),
+                    LoanAmount = loanAmount,
+                    LoanPeriod = loanPeriod,
+                    Popularity = 1 // Start with 1 popularity because it's just created
+                };
+                _dbContext.LoanSearches.Add(newLoanSearch);
+            }
+            _dbContext.SaveChanges(); // ✅ Save changes to the database
+        }
     }
-
 }

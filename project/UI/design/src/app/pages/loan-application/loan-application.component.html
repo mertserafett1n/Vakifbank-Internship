@@ -1,9 +1,9 @@
 <div class="container mt-5">
     <h1 class="text-start text-primary">Kredi Başvurusu</h1>
-    <p class="text-start">Lütfen başvuru bilgilerinizi eksiksiz doldurun.</p>
+    <p class="text-start">Lütfen başvuru yapmak için bilgilerinizi eksiksiz doldurun.</p>
 
     <div class="row">
-        <div class="col-md-6"> <!-- ✅ Shorter form width -->
+        <div class="col-md-6"> 
             <form (ngSubmit)="onFormSubmit()" [formGroup]="loanAppForm">
                 <!-- Email Address -->
                 <div class="mb-3">
@@ -52,7 +52,7 @@
                            [ngClass]="{'is-invalid': amountControl?.invalid && amountControl?.touched}" 
                            formControlName="LoanAmount" placeholder="Örneğin: 100000">
                     <small class="text-danger" *ngIf="amountControl?.invalid && amountControl?.touched">
-                        Kredi tutarı pozitif bir sayı olmalıdır.
+                        Kredi tutarı en az 1000 olmalıdır.
                     </small>
                 </div>
 
