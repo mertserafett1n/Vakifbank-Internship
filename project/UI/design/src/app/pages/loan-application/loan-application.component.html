@@ -1,1 +1,77 @@
+<div class="container mt-5">
+    <h1 class="text-start text-primary">Kredi Başvurusu</h1>
+    <p class="text-start">Lütfen başvuru bilgilerinizi eksiksiz doldurun.</p>
 
+    <div class="row">
+        <div class="col-md-6"> <!-- ✅ Shorter form width -->
+            <form (ngSubmit)="onFormSubmit()" [formGroup]="loanAppForm">
+                <!-- Email Address -->
+                <div class="mb-3">
+                    <label class="form-label">E-mail Adresi:</label>
+                    <input type="email" class="form-control" 
+                           [ngClass]="{'is-invalid': emailControl?.invalid && emailControl?.touched}" 
+                           formControlName="Email" placeholder="example@mail.com">
+                    <small class="text-danger" *ngIf="emailControl?.invalid && emailControl?.touched">
+                        Geçerli bir e-posta adresi giriniz.
+                    </small>
+                </div>
+
+                <!-- Full Name -->
+                <div class="mb-3">
+                    <label class="form-label">Ad Soyad:</label>
+                    <input type="text" class="form-control" 
+                           [ngClass]="{'is-invalid': nameControl?.invalid && nameControl?.touched}" 
+                           formControlName="NameSurname" placeholder="Adınızı ve soyadınızı giriniz">
+                    <small class="text-danger" *ngIf="nameControl?.invalid && nameControl?.touched">
+                        Ad ve soyadınızı giriniz (En az iki kelime).
+                    </small>
+                </div>
+
+                <!-- Bank Name (Text Input) -->
+                <div class="mb-3">
+                    <label class="form-label">Banka Seçiniz:</label>
+                    <input type="text" class="form-control" formControlName="BankName" placeholder="Örneğin: Vakıfbank">
+                </div>
+
+                <!-- Loan Type -->
+                <div class="mb-3">
+                    <label class="form-label">Kredi Türünü Seçiniz:</label>
+                    <select class="form-select" formControlName="LoanType">
+                        <option value="" disabled selected>-- Kredi Türü Seçin --</option>
+                        <option value="Konut Kredisi">Konut Kredisi</option>
+                        <option value="Taşıt Kredisi">Taşıt Kredisi</option>
+                        <option value="İhtiyaç Kredisi">İhtiyaç Kredisi</option>
+                        <option value="Eğitim Kredisi">Eğitim Kredisi</option>
+                    </select>
+                </div>
+
+                <!-- Loan Amount -->
+                <div class="mb-3">
+                    <label class="form-label">Kredi Tutarı (₺):</label>
+                    <input type="number" class="form-control" 
+                           [ngClass]="{'is-invalid': amountControl?.invalid && amountControl?.touched}" 
+                           formControlName="LoanAmount" placeholder="Örneğin: 100000">
+                    <small class="text-danger" *ngIf="amountControl?.invalid && amountControl?.touched">
+                        Kredi tutarı pozitif bir sayı olmalıdır.
+                    </small>
+                </div>
+
+                <!-- Loan Period -->
+                <div class="mb-3">
+                    <label class="form-label">Kredi Vadesi (Ay):</label>
+                    <input type="number" class="form-control" 
+                           [ngClass]="{'is-invalid': periodControl?.invalid && periodControl?.touched}" 
+                           formControlName="LoanPeriod" placeholder="Örneğin: 120">
+                    <small class="text-danger" *ngIf="periodControl?.invalid && periodControl?.touched">
+                        Kredi vadesi pozitif bir sayı olmalıdır.
+                    </small>
+                </div>
+
+                <!-- Submit Button (Disabled if Form is Invalid) -->
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary btn-lg" [disabled]="loanAppForm.invalid">Krediye Başvur</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
