@@ -1,10 +1,81 @@
-<p>home works!</p>
-<div class="container text-center mt-5">
-    <h1 class="display-4 text-primary">Welcome to LoanPlan</h1>
-    <p class="lead">Your trusted partner in loan management.</p>
-  
-    <button class="btn btn-success btn-lg mt-3" routerLink="/apply-loan">
-      Apply for a Loan
-    </button>
-  </div>
-  
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kredi Hesaplama ve Başvuru</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <style>
+        /* Background styling */
+        body {
+            margin: 0;
+            padding: 0;
+            background: url('/Users/mertserafettinkargi/Desktop/Vakıfbank/Vakifbank-Internship/project/UI/design/src/images/homepage.jpeg') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        /* Dark overlay for readability */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Dark transparent overlay */
+            z-index: 1;
+        }
+
+        /* Content styling */
+        .home-content {
+            position: relative;
+            z-index: 2;
+            max-width: 600px;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .btn-custom {
+            background-color: #ffc107; /* Gold button */
+            color: black;
+            padding: 12px 24px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 30px;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+
+        .btn-custom:hover {
+            background-color: #ff9800; /* Darker gold */
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay"></div>
+    
+    <div class="home-content">
+        <h1>Hayalinizdeki Krediyi Hemen Alın!</h1>
+        <p>Kredi hesaplama ve başvuru işlemlerini hızlı ve kolay bir şekilde gerçekleştirin.</p>
+        <a href="/loan-application" class="btn btn-custom">Hemen Başvur</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

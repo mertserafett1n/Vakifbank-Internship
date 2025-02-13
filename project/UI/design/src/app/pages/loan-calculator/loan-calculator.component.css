@@ -1,0 +1,18 @@
+/* Add transition effects */
+.transition-box {
+    transition: transform 0.5s ease-in-out;
+}
+
+/* Shift form to the left when calculation is submitted */
+.shift-left {
+    transform: translateX(-10%);
+}
+
+/* Style for user input section */
+.info-box {
+    padding: 20px;
+    border-radius: 8px;
+    background: #f8f9fa;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}

@@ -1,24 +1,30 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+  <div class="container-fluid">
+      <!-- Updated Navbar Brand with Icon -->
+      <a class="navbar-brand" href="#">
+          <i class="bi bi-credit-card-fill"></i> X Bank
+      </a>
+      
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
       </button>
+
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link active" routerLink="loan-calculator">Kredi Hesaplama</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="loan-application">Kredi Başvurusu</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Popüler Krediler</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-          </li>
-        </ul>
+          <ul class="navbar-nav">
+              <li class="nav-item">
+                  <a class="nav-link" routerLink="loan-calculator">Kredi Hesaplama</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" routerLink="loan-application">Kredi Başvurusu</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" aria-disabled="true">Popüler Krediler</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" aria-disabled="true">Kayıt Ol!</a>
+              </li>
+          </ul>
       </div>
-    </div>
-  </nav>
+  </div>
+</nav>
