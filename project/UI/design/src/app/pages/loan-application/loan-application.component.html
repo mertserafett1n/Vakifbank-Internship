@@ -1,9 +1,10 @@
 <div class="container mt-5">
-    <h1 class="text-start text-primary">Kredi Başvurusu</h1>
-    <p class="text-start">Lütfen başvuru yapmak için bilgilerinizi eksiksiz doldurun.</p>
-
     <div class="row">
-        <div class="col-md-6"> 
+        <!-- Left: Loan Application Form -->
+        <div class="col-md-6">
+            <h1 class="text-start text-primary">Kredi Başvurusu</h1>
+            <p class="text-start">Lütfen başvuru yapmak için bilgilerinizi eksiksiz doldurun.</p>
+
             <form (ngSubmit)="onFormSubmit()" [formGroup]="loanAppForm">
                 <!-- Email Address -->
                 <div class="mb-3">
@@ -63,7 +64,7 @@
                            [ngClass]="{'is-invalid': periodControl?.invalid && periodControl?.touched}" 
                            formControlName="LoanPeriod" placeholder="Örneğin: 120">
                     <small class="text-danger" *ngIf="periodControl?.invalid && periodControl?.touched">
-                        Kredi vadesi pozitif bir sayı olmalıdır.
+                        Kredi vadesi en az 6 ay olmalıdır.
                     </small>
                 </div>
 
@@ -72,6 +73,25 @@
                     <button type="submit" class="btn btn-primary btn-lg" [disabled]="loanAppForm.invalid">Krediye Başvur</button>
                 </div>
             </form>
+        </div>
+
+        <!-- Right: Popüler Olan Aramalar -->
+        <div class="col-md-5 offset-md-1">
+            <div class="card shadow-sm">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0">Popüler Olan Aramalar</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center"
+                            *ngFor="let search of allSearchedLoans">
+                            <span>{{ search.LoanAmount | number }} TL, {{ search.LoanPeriod }} ay vade kredi</span>
+                            
+                        </li>
+                    </ul>
+                    <p *ngIf="allSearchedLoans.length === 0" class="text-muted text-center mt-2">Henüz popüler arama yok.</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>

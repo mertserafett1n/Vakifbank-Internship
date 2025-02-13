@@ -1,15 +1,17 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms'; 
-import { NgClass, NgFor, NgIf } from '@angular/common';
+import { DecimalPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { LoanSearch } from '../../../models/LoanSeach.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-loan-application',
-  imports: [FormsModule, HttpClientModule, ReactiveFormsModule, NgFor, NgIf, NgClass],
+  imports: [FormsModule, HttpClientModule, ReactiveFormsModule, NgFor, NgIf, NgClass, DecimalPipe],
   templateUrl: './loan-application.component.html',
   styleUrl: './loan-application.component.css'
 })
-export class LoanApplicationComponent {
+export class LoanApplicationComponent implements OnInit {
   loanAppForm = new FormGroup({
     Email: new FormControl("", [
       Validators.required,
@@ -33,6 +35,11 @@ export class LoanApplicationComponent {
   });
 
   http = inject(HttpClient);
+  allSearchedLoans: LoanSearch[]  = [];
+
+  ngOnInit() {
+    this.getAllSearchedLoans();
+  }
 
   get emailControl() {
     return this.loanAppForm.get('Email');
@@ -63,7 +70,21 @@ export class LoanApplicationComponent {
         next: (value: any) => {
           console.log('POST request successful', value);
           this.loanAppForm.reset();
+          this.getAllSearchedLoans(); // ✅ Refresh search list after submission
         }
       });
+  }
+
+  private getAllSearchedLoans(){
+    this.http.get<LoanSearch[]>("http://localhost:5025/api/LoanSearchs")
+    .subscribe({
+      next: (response) => {
+        console.log ('GET request successful', response);
+        this.allSearchedLoans = response;
+      },
+      error: (error) => {
+        console.error('Error: GET', error);
+      }
+    });
   }
 }
