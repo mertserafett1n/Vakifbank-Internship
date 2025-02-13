@@ -1,5 +1,5 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { AsyncPipe, DecimalPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
@@ -8,16 +8,25 @@ import { PaymentPlan } from '../../../models/PaymentPlan.model';
 @Component({
   selector: 'app-loan-calculator',
   standalone: true,
-  imports: [FormsModule, AsyncPipe, ReactiveFormsModule, HttpClientModule, NgFor, NgIf, NgClass,DecimalPipe],
+  imports: [FormsModule, AsyncPipe, ReactiveFormsModule, HttpClientModule, NgFor, NgIf, NgClass, DecimalPipe],
   templateUrl: './loan-calculator.component.html',
   styleUrls: ['./loan-calculator.component.css']
 })
 
 export class LoanCalculatorComponent {
   loanCalculForm = new FormGroup({
-    LoanAmount: new FormControl<number>(0),
-    LoanPeriod: new FormControl<number>(0),
-    InterestRate: new FormControl<number>(0)
+    LoanAmount: new FormControl<number | null>(null, [
+      Validators.required,
+      Validators.min(1000) 
+    ]),
+    LoanPeriod: new FormControl<number | null>(null, [
+      Validators.required,
+      Validators.min(6) 
+    ]),
+    InterestRate: new FormControl<number | null>(null, [
+      Validators.required,
+      Validators.min(0.1)
+    ])
   });
 
   http = inject(HttpClient);
@@ -27,7 +36,23 @@ export class LoanCalculatorComponent {
   loanPeriod!: number;
   interestRate!: number;
 
+  // Getters for Validation
+  get loanAmountControl() {
+    return this.loanCalculForm.get('LoanAmount');
+  }
+  get loanPeriodControl() {
+    return this.loanCalculForm.get('LoanPeriod');
+  }
+  get interestRateControl() {
+    return this.loanCalculForm.get('InterestRate');
+  }
+
   onFormSubmit() {
+    if (this.loanCalculForm.invalid) {
+      console.log('Form is invalid!');
+      return;
+    }
+
     this.loanAmount = this.loanCalculForm.value.LoanAmount!;
     this.loanPeriod = this.loanCalculForm.value.LoanPeriod!;
     this.interestRate = this.loanCalculForm.value.InterestRate!;

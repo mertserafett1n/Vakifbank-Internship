@@ -8,26 +8,43 @@
             <form (ngSubmit)="onFormSubmit()" [formGroup]="loanCalculForm">
                 <!-- Loan Amount -->
                 <div class="mb-3">
-                    <label for="LoanAmount" class="form-label">Kredi Tutarı (₺)</label>
-                    <input type="number" class="form-control" formControlName="LoanAmount" placeholder="Örneğin: 50000">
+                    <label class="form-label">Kredi Tutarı (₺)</label>
+                    <input type="number" class="form-control" 
+                           formControlName="LoanAmount"
+                           [ngClass]="{'is-invalid': loanAmountControl?.invalid && loanAmountControl?.touched}"
+                           placeholder="Örneğin: 50000">
+                    <small class="text-danger" *ngIf="loanAmountControl?.invalid && loanAmountControl?.touched">
+                        Kredi tutarı en az 1000 ₺ olmalıdır.
+                    </small>
                 </div>
 
                 <!-- Loan Term -->
                 <div class="mb-3">
-                    <label for="LoanTerm" class="form-label">Vade Sayısı (Ay)</label>
-                    <input type="number" class="form-control" formControlName="LoanPeriod" placeholder="Örneğin: 36">
+                    <label class="form-label">Vade Sayısı (Ay)</label>
+                    <input type="number" class="form-control"
+                           formControlName="LoanPeriod"
+                           [ngClass]="{'is-invalid': loanPeriodControl?.invalid && loanPeriodControl?.touched}"
+                           placeholder="Örneğin: 36">
+                    <small class="text-danger" *ngIf="loanPeriodControl?.invalid && loanPeriodControl?.touched">
+                        Vade en az 6 ay olmalıdır.
+                    </small>
                 </div>
 
                 <!-- Interest Rate -->
                 <div class="mb-3">
-                    <label for="InterestRate" class="form-label">Faiz Oranı (%)</label>
-                    <input type="number" step="0.01" class="form-control" formControlName="InterestRate"
-                        placeholder="Örneğin: 1.5">
+                    <label class="form-label">Faiz Oranı (%)</label>
+                    <input type="number" step="0.01" class="form-control"
+                           formControlName="InterestRate"
+                           [ngClass]="{'is-invalid': interestRateControl?.invalid && interestRateControl?.touched}"
+                           placeholder="Örneğin: 1.5">
+                    <small class="text-danger" *ngIf="interestRateControl?.invalid && interestRateControl?.touched">
+                        Faiz oranı 0.1'den büyük olmalıdır.
+                    </small>
                 </div>
 
                 <!-- Calculate Button -->
                 <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-success btn-lg">Hesapla</button>
+                    <button type="submit" class="btn btn-success btn-lg" [disabled]="loanCalculForm.invalid">Hesapla</button>
                 </div>
             </form>
         </div>

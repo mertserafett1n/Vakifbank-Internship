@@ -36,7 +36,7 @@ export class LoanApplicationComponent implements OnInit {
 
   http = inject(HttpClient);
   allSearchedLoans: LoanSearch[] = [];
-  successMessage: string = ""; // ✅ Success message variable
+  successMessage: string = ""; 
 
   ngOnInit() {
     this.getAllSearchedLoans();
@@ -71,12 +71,10 @@ export class LoanApplicationComponent implements OnInit {
         next: (value: any) => {
           console.log('POST request successful', value);
           this.loanAppForm.reset();
-          this.getAllSearchedLoans(); // ✅ Refresh search list after submission
+          this.getAllSearchedLoans();
 
-          // ✅ Show success message
           this.successMessage = "Kredi başvurunuz alınmıştır, teşekkürler!";
           
-          // ✅ Hide the message after 3 seconds
           setTimeout(() => {
             this.successMessage = "";
           }, 3000);
