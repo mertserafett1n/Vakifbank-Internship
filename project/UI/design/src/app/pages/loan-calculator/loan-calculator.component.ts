@@ -2,7 +2,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms'; // ✅ Import FormsModule
 import { Calculation } from '../../../models/calculation.model';
 import { Observable } from 'rxjs';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, DecimalPipe, NgFor, NgIf } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {inject } from '@angular/core';
 import { Component } from '@angular/core';
@@ -12,7 +12,7 @@ import { PaymentPlan } from '../../../models/PaymentPlan.model';
 @Component({
   selector: 'app-loan-calculator',
   standalone: true, // ✅ Important for standalone component
-  imports: [FormsModule,AsyncPipe, ReactiveFormsModule, HttpClientModule], // ✅ Include FormsModule here
+  imports: [FormsModule,AsyncPipe, ReactiveFormsModule, HttpClientModule, NgFor, NgIf, DecimalPipe],
   templateUrl: './loan-calculator.component.html',
   styleUrls: ['./loan-calculator.component.css']
 })
@@ -26,13 +26,6 @@ export class LoanCalculatorComponent {
     InterestRate: new FormControl<number>(0)
   })
 
-  paymentPlanForm = new FormGroup({
-    PaymentNo: new FormControl<number>(0),
-    PaymentAmount: new FormControl<number>(0),
-    AmountOfInterest: new FormControl<number>(0),
-    AmountOfMoney: new FormControl<number>(0),
-    RestOfMoney: new FormControl<number>(0)
-  })
   http = inject(HttpClient);
   paymentPlanList: PaymentPlan[] = []; // Stores all payment plans for table display
   onFormSubmit(){
@@ -51,35 +44,8 @@ export class LoanCalculatorComponent {
         this.getPaymentPlan(tempId);
       }
     });
-    /*
-    const showPaymentPlan = {
-      PaymentId: this.paymentPlanForm.value.PaymentNo,
-      PaymentAmount: this.paymentPlanForm.value.PaymentAmount,
-      AmountOfInterest: this.paymentPlanForm.value.AmountOfInterest,
-      AmountOfMoney: this.paymentPlanForm.value.AmountOfMoney,
-      RestOfMoney: this.paymentPlanForm.value.RestOfMoney,
-    }
-
-    */
-/*
-    this.http.get("http://localhost:5025/api/Calculations")
-    .subscribe({
-      next: (response) => {
-        console.log('GET request successful', response);
-        this.paymentPlanForm.reset();
-      },
-      error: (error) => {
-        console.error('Error:', error);
-      }
-    }) 
-*/
   }
   
-  /*
-  private getPaymentPlan(): Observable<PaymentPlan[]> {
-    return this.http.get<PaymentPlan[]>("http://localhost:5025/api/Calculations");
-  }
-  */
 
 // Getting 400 error, nothing bad w posting, smth wrong w get method. Might need to with here. 
   getPaymentPlan(calculationId: string){
@@ -87,9 +53,9 @@ export class LoanCalculatorComponent {
       console.error('Invaid calculationID: ', calculationId);
       return;
     }
-     
+
     const apiURL = `http://localhost:5025/api/Calculations/${calculationId}`;
-    console.log(`GET Request to: ${apiURL}`); // ✅ This will correctly display the actual URL
+    console.log(`GET Request to: ${apiURL}`); // Debugging if the apiurl matches the last Id well.
 
 
 
@@ -98,18 +64,11 @@ export class LoanCalculatorComponent {
       next: (response) => {
         console.log ('GET request successful', response);
         if(response.length > 0){
-          this.paymentPlanForm.setValue({
-            PaymentNo: response[0].PaymentNo,
-            PaymentAmount: response[0].PaymentAmount,
-            AmountOfInterest: response[0].AmountOfInterest,
-            AmountOfMoney: response[0].AmountOfMoney,
-            RestOfMoney: response[0].RestOfMoney
-          });
           this.paymentPlanList = response;
         }
       },
       error: (error) => {
-        console.error('Error: ROW !=', error);
+        console.error('Error: GET METHOD LOANCALC. !=', error);
       }
     });
   }
